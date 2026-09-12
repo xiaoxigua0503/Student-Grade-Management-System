@@ -1,0 +1,6 @@
+{
+  "name": "Student Grade Management System",
+  "description": "A web-based student grade management system with student and course CRUD, enrollment, batch and individual grade entry, transcripts, course statistics, and persistent TXT .dat storage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

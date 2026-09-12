@@ -1,0 +1,35 @@
+JCKC0001,Advanced Mathematics I,JCKC,4.0
+JCKC0002,Advanced Mathematics II,JCKC,4.0
+JCKC0003,Linear Algebra,JCKC,3.0
+JCKC0004,Probability & Mathematical Statistics,JCKC,3.0
+JCKC0005,College Physics I,JCKC,3.5
+JCKC0006,College Physics II,JCKC,3.5
+JCKC0007,Introduction to Programming in C/C++,JCKC,3.5
+JCKC0008,Discrete Mathematics,JCKC,3.0
+JCKC0009,Academic English Communication,JCKC,2.0
+JCKC0010,Engineering Ethics & Society,JCKC,2.0
+ZYBX0001,Data Structures & Algorithms,ZYBX,4.0
+ZYBX0002,Computer Organization & Architecture,ZYBX,3.5
+ZYBX0003,Operating Systems,ZYBX,3.5
+ZYBX0004,Database System Principles,ZYBX,3.5
+ZYBX0005,Computer Networks,ZYBX,3.5
+ZYBX0006,Software Engineering Fundamentals,ZYBX,3.0
+ZYBX0007,Digital Logic & Circuit Design,ZYBX,3.5
+ZYBX0008,Signals & Linear Systems,ZYBX,3.5
+ZYBX0009,Principles of Compilers,ZYBX,3.0
+ZYBX0010,Algorithm Design & Analysis,ZYBX,3.0
+ZYBX0011,Information Security Principles,ZYBX,3.0
+ZYBX0012,Object-Oriented Programming & Design,ZYBX,3.0
+ZYXX0001,Machine Learning Fundamentals,ZYXX,3.0
+ZYXX0002,Deep Learning & Neural Networks,ZYXX,3.0
+ZYXX0003,Computer Vision Applications,ZYXX,3.0
+ZYXX0004,Natural Language Processing,ZYXX,3.0
+ZYXX0005,Cloud Computing & Distributed Systems,ZYXX,2.5
+ZYXX0006,Web Application Development,ZYXX,3.0
+ZYXX0007,Mobile Application Architecture,ZYXX,2.5
+ZYXX0008,Big Data Processing Technologies,ZYXX,3.0
+ZYXX0009,Human-Computer Interaction,ZYXX,2.0
+ZYXX0010,Embedded Systems & Internet of Things,ZYXX,3.0
+BYSJ0001,Undergraduate Graduation Thesis & Project,BYSJ,8.0
+BYSJ0002,Senior Comprehensive Capstone Design,BYSJ,6.0
+BYSJ0003,Professional Internship & Practicum,BYSJ,4.0

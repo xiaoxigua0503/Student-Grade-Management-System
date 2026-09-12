@@ -1,0 +1,125 @@
+20210001,Emma Wilson,Female,2003-01-01,Computer Science,College of Computer Science
+20220002,Liam Wang,Male,2003-02-08,Electronic Information Engineering,College of Information Science
+20230003,Olivia Liu,Female,2005-03-15,Mechanical Engineering,College of Engineering
+20240004,Noah Huang,Male,2005-04-22,Statistics,College of Mathematics & Sciences
+20210005,Sophia Zhou,Female,2003-05-01,Financial Technology,College of Economics & Management
+20220006,Ethan Singh,Male,2003-06-08,Computer Science,College of Computer Science
+20230007,Isabella Verma,Female,2005-07-15,Telecommunications,College of Information Science
+20240008,Mason Reddy,Male,2005-08-22,Electrical Engineering,College of Engineering
+20210009,Mia Rodriguez,Female,2003-09-01,Applied Mathematics,College of Mathematics & Sciences
+20220010,William Lopez,Male,2003-10-08,Management Information Systems,College of Economics & Management
+20230011,Ava Sanchez,Female,2005-11-15,Computer Science,College of Computer Science
+20240012,James Al-Mansoor,Male,2005-12-22,Network Engineering,College of Information Science
+20210013,Charlotte Abbasi,Female,2003-01-01,Automation,College of Engineering
+20220014,Benjamin Khan,Male,2003-02-08,Information & Computing Science,College of Mathematics & Sciences
+20230015,Amelia Karimi,Female,2005-03-15,Business Analytics,College of Economics & Management
+20240016,Lucas Williams,Male,2005-04-22,Computer Science,College of Computer Science
+20210017,Harper Miller,Female,2003-05-01,Information Systems,College of Information Science
+20220018,Alexander Anderson,Male,2003-06-08,Robotics Engineering,College of Engineering
+20230019,Evelyn Li,Female,2005-07-15,Applied Physics,College of Mathematics & Sciences
+20240020,Henry Chen,Male,2005-08-22,E-Commerce,College of Economics & Management
+20210021,Wei Zhao,Female,2003-09-01,Computer Science,College of Computer Science
+20220022,Mei Patel,Male,2003-10-08,Electronic Information Engineering,College of Information Science
+20230023,Hao Kumar,Female,2005-11-15,Mechanical Engineering,College of Engineering
+20240024,Jing Mehta,Male,2005-12-22,Statistics,College of Mathematics & Sciences
+20210025,Chen Rao,Female,2003-01-01,Financial Technology,College of Economics & Management
+20220026,Ying Martinez,Male,2003-02-08,Computer Science,College of Computer Science
+20230027,Bo Gonzalez,Female,2005-03-15,Telecommunications,College of Information Science
+20240028,Fang Ramirez,Male,2005-04-22,Electrical Engineering,College of Engineering
+20210029,Jun Hakim,Female,2003-05-01,Applied Mathematics,College of Mathematics & Sciences
+20220030,Lin Nasser,Male,2003-06-08,Management Information Systems,College of Economics & Management
+20230031,Aarav Khoury,Female,2005-07-15,Computer Science,College of Computer Science
+20240032,Ananya Smith,Male,2005-08-22,Network Engineering,College of Information Science
+20210033,Rohan Brown,Female,2003-09-01,Automation,College of Engineering
+20220034,Priya Davis,Male,2003-10-08,Information & Computing Science,College of Mathematics & Sciences
+20230035,Aditya Taylor,Female,2005-11-15,Business Analytics,College of Economics & Management
+20240036,Diya Zhang,Male,2005-12-22,Computer Science,College of Computer Science
+20210037,Kavya Yang,Female,2003-01-01,Information Systems,College of Information Science
+20220038,Vikram Wu,Male,2003-02-08,Robotics Engineering,College of Engineering
+20230039,Neha Sharma,Female,2005-03-15,Applied Physics,College of Mathematics & Sciences
+20240040,Sanjay Gupta,Male,2005-04-22,E-Commerce,College of Economics & Management
+20210041,Mateo Joshi,Female,2003-05-01,Computer Science,College of Computer Science
+20220042,Sofia Garcia,Male,2003-06-08,Electronic Information Engineering,College of Information Science
+20230043,Santiago Hernandez,Female,2005-07-15,Mechanical Engineering,College of Engineering
+20240044,Valentina Perez,Male,2005-08-22,Statistics,College of Mathematics & Sciences
+20210045,Sebastian Torres,Female,2003-09-01,Financial Technology,College of Economics & Management
+20220046,Camila Farouk,Male,2003-10-08,Computer Science,College of Computer Science
+20230047,Leonardo Siddiqui,Female,2005-11-15,Telecommunications,College of Information Science
+20240048,Lucia Rashid,Male,2005-12-22,Electrical Engineering,College of Engineering
+20210049,Alejandro Johnson,Female,2003-01-01,Applied Mathematics,College of Mathematics & Sciences
+20220050,Elena Jones,Male,2003-02-08,Management Information Systems,College of Economics & Management
+20230051,Tariq Wilson,Female,2005-03-15,Computer Science,College of Computer Science
+20240052,Fatima Wang,Male,2005-04-22,Network Engineering,College of Information Science
+20210053,Omar Liu,Female,2003-05-01,Automation,College of Engineering
+20220054,Zahra Huang,Male,2003-06-08,Information & Computing Science,College of Mathematics & Sciences
+20230055,Hassan Zhou,Female,2005-07-15,Business Analytics,College of Economics & Management
+20240056,Maryam Singh,Male,2005-08-22,Computer Science,College of Computer Science
+20210057,Yusuf Verma,Female,2003-09-01,Information Systems,College of Information Science
+20220058,Amina Reddy,Male,2003-10-08,Robotics Engineering,College of Engineering
+20230059,Ali Rodriguez,Female,2005-11-15,Applied Physics,College of Mathematics & Sciences
+20240060,Layla Lopez,Male,2005-12-22,E-Commerce,College of Economics & Management
+20210061,Emma Sanchez,Female,2003-01-01,Computer Science,College of Computer Science
+20220062,Liam Al-Mansoor,Male,2003-02-08,Electronic Information Engineering,College of Information Science
+20230063,Olivia Abbasi,Female,2005-03-15,Mechanical Engineering,College of Engineering
+20240064,Noah Khan,Male,2005-04-22,Statistics,College of Mathematics & Sciences
+20210065,Sophia Karimi,Female,2003-05-01,Financial Technology,College of Economics & Management
+20220066,Ethan Williams,Male,2003-06-08,Computer Science,College of Computer Science
+20230067,Isabella Miller,Female,2005-07-15,Telecommunications,College of Information Science
+20240068,Mason Anderson,Male,2005-08-22,Electrical Engineering,College of Engineering
+20210069,Mia Li,Female,2003-09-01,Applied Mathematics,College of Mathematics & Sciences
+20220070,William Chen,Male,2003-10-08,Management Information Systems,College of Economics & Management
+20230071,Ava Zhao,Female,2005-11-15,Computer Science,College of Computer Science
+20240072,James Patel,Male,2005-12-22,Network Engineering,College of Information Science
+20210073,Charlotte Kumar,Female,2003-01-01,Automation,College of Engineering
+20220074,Benjamin Mehta,Male,2003-02-08,Information & Computing Science,College of Mathematics & Sciences
+20230075,Amelia Rao,Female,2005-03-15,Business Analytics,College of Economics & Management
+20240076,Lucas Martinez,Male,2005-04-22,Computer Science,College of Computer Science
+20210077,Harper Gonzalez,Female,2003-05-01,Information Systems,College of Information Science
+20220078,Alexander Ramirez,Male,2003-06-08,Robotics Engineering,College of Engineering
+20230079,Evelyn Hakim,Female,2005-07-15,Applied Physics,College of Mathematics & Sciences
+20240080,Henry Nasser,Male,2005-08-22,E-Commerce,College of Economics & Management
+20210081,Wei Khoury,Female,2003-09-01,Computer Science,College of Computer Science
+20220082,Mei Smith,Male,2003-10-08,Electronic Information Engineering,College of Information Science
+20230083,Hao Brown,Female,2005-11-15,Mechanical Engineering,College of Engineering
+20240084,Jing Davis,Male,2005-12-22,Statistics,College of Mathematics & Sciences
+20210085,Chen Taylor,Female,2003-01-01,Financial Technology,College of Economics & Management
+20220086,Ying Zhang,Male,2003-02-08,Computer Science,College of Computer Science
+20230087,Bo Yang,Female,2005-03-15,Telecommunications,College of Information Science
+20240088,Fang Wu,Male,2005-04-22,Electrical Engineering,College of Engineering
+20210089,Jun Sharma,Female,2003-05-01,Applied Mathematics,College of Mathematics & Sciences
+20220090,Lin Gupta,Male,2003-06-08,Management Information Systems,College of Economics & Management
+20230091,Aarav Joshi,Female,2005-07-15,Computer Science,College of Computer Science
+20240092,Ananya Garcia,Male,2005-08-22,Network Engineering,College of Information Science
+20210093,Rohan Hernandez,Female,2003-09-01,Automation,College of Engineering
+20220094,Priya Perez,Male,2003-10-08,Information & Computing Science,College of Mathematics & Sciences
+20230095,Aditya Torres,Female,2005-11-15,Business Analytics,College of Economics & Management
+20240096,Diya Farouk,Male,2005-12-22,Computer Science,College of Computer Science
+20210097,Kavya Siddiqui,Female,2003-01-01,Information Systems,College of Information Science
+20220098,Vikram Rashid,Male,2003-02-08,Robotics Engineering,College of Engineering
+20230099,Neha Johnson,Female,2005-03-15,Applied Physics,College of Mathematics & Sciences
+20240100,Sanjay Jones,Male,2005-04-22,E-Commerce,College of Economics & Management
+20210101,Mateo Wilson,Female,2003-05-01,Computer Science,College of Computer Science
+20220102,Sofia Wang,Male,2003-06-08,Electronic Information Engineering,College of Information Science
+20230103,Santiago Liu,Female,2005-07-15,Mechanical Engineering,College of Engineering
+20240104,Valentina Huang,Male,2005-08-22,Statistics,College of Mathematics & Sciences
+20210105,Sebastian Zhou,Female,2003-09-01,Financial Technology,College of Economics & Management
+20220106,Camila Singh,Male,2003-10-08,Computer Science,College of Computer Science
+20230107,Leonardo Verma,Female,2005-11-15,Telecommunications,College of Information Science
+20240108,Lucia Reddy,Male,2005-12-22,Electrical Engineering,College of Engineering
+20210109,Alejandro Rodriguez,Female,2003-01-01,Applied Mathematics,College of Mathematics & Sciences
+20220110,Elena Lopez,Male,2003-02-08,Management Information Systems,College of Economics & Management
+20230111,Tariq Sanchez,Female,2005-03-15,Computer Science,College of Computer Science
+20240112,Fatima Al-Mansoor,Male,2005-04-22,Network Engineering,College of Information Science
+20210113,Omar Abbasi,Female,2003-05-01,Automation,College of Engineering
+20220114,Zahra Khan,Male,2003-06-08,Information & Computing Science,College of Mathematics & Sciences
+20230115,Hassan Karimi,Female,2005-07-15,Business Analytics,College of Economics & Management
+20240116,Maryam Williams,Male,2005-08-22,Computer Science,College of Computer Science
+20210117,Yusuf Miller,Female,2003-09-01,Information Systems,College of Information Science
+20220118,Amina Anderson,Male,2003-10-08,Robotics Engineering,College of Engineering
+20230119,Ali Li,Female,2005-11-15,Applied Physics,College of Mathematics & Sciences
+20240120,Layla Chen,Male,2005-12-22,E-Commerce,College of Economics & Management
+20210121,Emma Zhao,Female,2003-01-01,Computer Science,College of Computer Science
+20220122,Liam Patel,Male,2003-02-08,Electronic Information Engineering,College of Information Science
+20230123,Olivia Kumar,Female,2005-03-15,Mechanical Engineering,College of Engineering
+20240124,Noah Mehta,Male,2005-04-22,Statistics,College of Mathematics & Sciences
+20210125,Sophia Rao,Female,2003-05-01,Financial Technology,College of Economics & Management
