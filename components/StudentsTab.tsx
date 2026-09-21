@@ -150,11 +150,11 @@ export function StudentsTab({
         setFormError(data.error || (language === 'zh' ? '添加学生失败' : 'Failed to add student.'));
       } else {
         setIsAddModalOpen(false);
-        showToast(language === 'zh' ? `学生 ${formName} (${formId}) 已成功添加并保存至 student.dat` : `Student ${formName} (${formId}) added successfully to student.dat.`);
+        showToast(language === 'zh' ? `学生 ${formName} (${formId}) 已成功添加` : `Student ${formName} (${formId}) added successfully.`);
         onRefresh();
       }
     } catch {
-      setFormError(language === 'zh' ? '网络错误，无法连接数据库' : 'Network error while adding student.');
+      setFormError(language === 'zh' ? '网络错误，无法连接服务器' : 'Network error while adding student.');
     } finally {
       setIsSubmitting(false);
     }
@@ -184,7 +184,7 @@ export function StudentsTab({
         setFormError(data.error || (language === 'zh' ? '更新学生信息失败' : 'Failed to update student.'));
       } else {
         setEditingStudent(null);
-        showToast(language === 'zh' ? `学生 ${formName} 信息已成功更新至 student.dat` : `Student ${formName} details updated successfully.`);
+        showToast(language === 'zh' ? `学生 ${formName} 信息已成功更新` : `Student ${formName} details updated successfully.`);
         onRefresh();
       }
     } catch {
@@ -318,9 +318,7 @@ export function StudentsTab({
           <span>
             {language === 'zh' ? '当前显示 ' : 'Showing '}
             <strong className="text-slate-700">{filteredStudents.length}</strong>
-            {language === 'zh' ? ' 名学生（存储于 ' : ' student(s) in '}
-            <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-600">student.dat</code>
-            {language === 'zh' ? '）' : ''}
+            {language === 'zh' ? ' 名学生' : ' student(s)'}
           </span>
           {(searchName || filterMajor !== 'ALL' || filterCollege !== 'ALL') && (
             <button
@@ -587,7 +585,7 @@ export function StudentsTab({
                   disabled={isSubmitting}
                   className="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-sm transition disabled:opacity-50"
                 >
-                  {isSubmitting ? (language === 'zh' ? '正在保存至 .dat...' : 'Saving to .dat...') : t.save}
+                  {isSubmitting ? (language === 'zh' ? '正在保存...' : 'Saving...') : t.save}
                 </button>
               </div>
             </form>
@@ -738,8 +736,8 @@ export function StudentsTab({
 
             <p className="text-sm text-slate-600">
               {language === 'zh'
-                ? `确定要删除学生 ${studentToDelete.name}（学号: ${studentToDelete.id}）吗？删除后，该学生的所有选课与成绩记录都将从 score.dat 中同步清除。`
-                : `Are you sure you want to permanently delete student ${studentToDelete.name} (${studentToDelete.id})? All enrolled courses and scores will be removed from score.dat.`}
+                ? `确定要删除学生 ${studentToDelete.name}（学号: ${studentToDelete.id}）吗？删除后，该学生的所有选课与成绩记录都将同步清除。`
+                : `Are you sure you want to permanently delete student ${studentToDelete.name} (${studentToDelete.id})? All enrolled courses and scores will be removed.`}
             </p>
 
             <div className="flex justify-end space-x-2 pt-3">

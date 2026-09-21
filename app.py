@@ -205,32 +205,65 @@ def api_courses():
 @app.route('/api/scores', methods=['GET', 'POST'])
 def api_scores():
     if request.method == 'GET':
-        s_id = request.args.get('studentId', '').strip()
-        c_id = request.args.get('courseId', '').strip().upper()
+        s_query = request.args.get('studentId', '').strip().lower()
+        c_query = request.args.get('courseId', '').strip().lower()
+        g_query = request.args.get('q', '').strip().lower()
+        status_filter = request.args.get('status', '').strip().lower()
+
         scores = read_scores()
         students = {s['id']: s for s in read_students()}
         courses = {c['id']: c for c in read_courses()}
         results = []
         for sc in scores:
-            if s_id and sc['student_id'] != s_id:
-                continue
-            if c_id and sc['course_id'] != c_id:
-                continue
             s_obj = students.get(sc['student_id'])
             c_obj = courses.get(sc['course_id'])
-            if s_obj and c_obj:
-                results.append({
-                    'studentId': sc['student_id'],
-                    'courseId': sc['course_id'],
-                    'score': sc['score'],
-                    'date': sc['date'],
-                    'studentName': s_obj['name'],
-                    'studentMajor': s_obj['major'],
-                    'studentCollege': s_obj['college'],
-                    'courseName': c_obj['name'],
-                    'courseCategory': c_obj['category'],
-                    'courseCredits': c_obj['credits']
-                })
+            if not s_obj or not c_obj:
+                continue
+
+            if s_query:
+                match_s = s_query in sc['student_id'].lower() or s_query in s_obj['name'].lower()
+                if not match_s:
+                    continue
+
+            if c_query:
+                match_c = c_query in sc['course_id'].lower() or c_query in c_obj['name'].lower() or c_query in c_obj['category'].lower()
+                if not match_c:
+                    continue
+
+            if g_query:
+                match_g = (
+                    g_query in sc['student_id'].lower() or
+                    g_query in s_obj['name'].lower() or
+                    g_query in s_obj['major'].lower() or
+                    g_query in s_obj['college'].lower() or
+                    g_query in sc['course_id'].lower() or
+                    g_query in c_obj['name'].lower()
+                )
+                if not match_g:
+                    continue
+
+            if status_filter and status_filter != 'all':
+                raw = sc['score']
+                num = float(raw) if raw != '' else None
+                if status_filter == 'passed' and (num is None or num < 60.0):
+                    continue
+                if status_filter == 'failed' and (num is None or num >= 60.0):
+                    continue
+                if status_filter == 'pending' and num is not None:
+                    continue
+
+            results.append({
+                'studentId': sc['student_id'],
+                'courseId': sc['course_id'],
+                'score': sc['score'],
+                'date': sc['date'],
+                'studentName': s_obj['name'],
+                'studentMajor': s_obj['major'],
+                'studentCollege': s_obj['college'],
+                'courseName': c_obj['name'],
+                'courseCategory': c_obj['category'],
+                'courseCredits': c_obj['credits']
+            })
         return jsonify({'success': True, 'scores': results})
     else:
         data = request.json or request.form

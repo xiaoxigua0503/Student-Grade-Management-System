@@ -233,7 +233,7 @@ export function EnrollmentTab({
           <div className="flex items-center space-x-2 text-emerald-800 font-semibold text-base">
             <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
             <span>
-              {language === 'zh' ? '选课记录已成功写入 score.dat 持久化文件！' : 'Enrollment Successfully Saved to score.dat!'}
+              {language === 'zh' ? '选课记录已成功保存！' : 'Enrollment Successfully Saved!'}
             </span>
           </div>
           <p className="text-sm text-emerald-700">
@@ -495,7 +495,7 @@ export function EnrollmentTab({
               disabled={isSaving || !selectedStudentId || selectedCourseIds.size === 0}
               className="w-full sm:w-auto px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg shadow-sm transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center space-x-1.5"
             >
-              <span>{isSaving ? (language === 'zh' ? '正在写入 score.dat...' : 'Saving to score.dat...') : t.step4SaveEnrollment}</span>
+              <span>{isSaving ? (language === 'zh' ? '正在保存选课...' : 'Saving enrollment...') : t.step4SaveEnrollment}</span>
             </button>
           </div>
         </div>

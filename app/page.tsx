@@ -9,7 +9,7 @@ import { GradesTab } from '@/components/GradesTab';
 import { TranscriptTab } from '@/components/TranscriptTab';
 import { StatisticsTab } from '@/components/StatisticsTab';
 import { Student, Course } from '@/lib/types';
-import { Database, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertCircle, RefreshCw } from 'lucide-react';
 import { LanguageProvider, useLanguage } from '@/lib/LanguageContext';
 
 function DashboardContent() {
@@ -19,9 +19,7 @@ function DashboardContent() {
   // Master data
   const [students, setStudents] = useState<Student[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
-  const [statsCount, setStatsCount] = useState({ students: 0, courses: 0, scores: 0 });
   const [isLoading, setIsLoading] = useState(true);
-  const [isResetting, setIsResetting] = useState(false);
   const [globalError, setGlobalError] = useState<string | null>(null);
 
   // Cross-tab selection states
@@ -52,14 +50,8 @@ function DashboardContent() {
       if (coursesData.success) {
         setCourses(coursesData.courses);
       }
-
-      setStatsCount({
-        students: studentsData.students ? studentsData.students.length : 0,
-        courses: coursesData.courses ? coursesData.courses.length : 0,
-        scores: scoresData.scores ? scoresData.scores.length : 0
-      });
     } catch {
-      setGlobalError('无法连接到存储文件，请检查系统。');
+      setGlobalError('无法连接到服务器，请检查网络或刷新重试。');
     } finally {
       setIsLoading(false);
     }
@@ -70,28 +62,6 @@ function DashboardContent() {
       loadData();
     });
   }, [loadData]);
-
-  const handleResetData = async () => {
-    if (!window.confirm(t.reseedConfirm)) {
-      return;
-    }
-
-    setIsResetting(true);
-    try {
-      const res = await fetch('/api/reset-data', { method: 'POST' });
-      const data = await res.json();
-      if (data.success) {
-        await loadData();
-        alert(t.reseedSuccess);
-      } else {
-        alert(data.error || '重置数据失败');
-      }
-    } catch {
-      alert('网络异常，重置数据失败。');
-    } finally {
-      setIsResetting(false);
-    }
-  };
 
   // Cross-tab navigation handlers
   const handleSelectForTranscript = (studentId: string) => {
@@ -120,9 +90,6 @@ function DashboardContent() {
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        statsCount={statsCount}
-        onResetData={handleResetData}
-        isResetting={isResetting}
       />
 
       {/* Main Container */}
@@ -210,25 +177,15 @@ function DashboardContent() {
         )}
       </main>
 
-      {/* Footer with Persistent Storage & Architecture Info */}
-      <footer className="bg-white border-t border-slate-200 py-6 text-xs text-slate-500 print:hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center space-x-2">
-            <Database className="w-4 h-4 text-indigo-600" />
-            <span>
-              {t.footerStorage} (
-              <code className="font-mono text-slate-700 bg-slate-100 px-1 py-0.5 rounded">student.dat</code>,{' '}
-              <code className="font-mono text-slate-700 bg-slate-100 px-1 py-0.5 rounded">course.dat</code>,{' '}
-              <code className="font-mono text-slate-700 bg-slate-100 px-1 py-0.5 rounded">score.dat</code>)
-            </span>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <span className="flex items-center space-x-1 text-emerald-700 font-medium">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>{t.footerBackend}</span>
-            </span>
-          </div>
+      {/* Footer */}
+      <footer className="bg-white border-t border-slate-200 py-5 text-xs text-slate-500 print:hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+          <span className="font-medium text-slate-600">
+            {t.footerStorage}
+          </span>
+          <span className="text-slate-400">
+            {t.footerBackend}
+          </span>
         </div>
       </footer>
     </div>

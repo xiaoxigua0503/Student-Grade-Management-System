@@ -139,7 +139,7 @@ export function CoursesTab({
         setFormError(data.error || (language === 'zh' ? '添加课程失败' : 'Failed to add course.'));
       } else {
         setIsAddModalOpen(false);
-        showToast(language === 'zh' ? `课程 ${formName} (${courseId}) 已成功添加至 course.dat` : `Course ${formName} (${courseId}) added successfully.`);
+        showToast(language === 'zh' ? `课程 ${formName} (${courseId}) 已成功添加` : `Course ${formName} (${courseId}) added successfully.`);
         onRefresh();
       }
     } catch {
@@ -176,7 +176,7 @@ export function CoursesTab({
         setFormError(data.error || (language === 'zh' ? '修改课程失败' : 'Failed to update course.'));
       } else {
         setEditingCourse(null);
-        showToast(language === 'zh' ? `课程 ${formName} 信息已成功更新至 course.dat` : `Course ${formName} updated successfully.`);
+        showToast(language === 'zh' ? `课程 ${formName} 信息已成功更新` : `Course ${formName} updated successfully.`);
         onRefresh();
       }
     } catch {
@@ -325,9 +325,7 @@ export function CoursesTab({
           <span>
             {language === 'zh' ? '当前显示 ' : 'Showing '}
             <strong className="text-slate-700">{filteredCourses.length}</strong>
-            {language === 'zh' ? ' 门课程（存储于 ' : ' course(s) in '}
-            <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-600">course.dat</code>
-            {language === 'zh' ? '）' : ''}
+            {language === 'zh' ? ' 门课程' : ' course(s)'}
           </span>
           {(searchName || filterCategory !== 'ALL') && (
             <button
@@ -578,7 +576,7 @@ export function CoursesTab({
                   disabled={isSubmitting}
                   className="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-sm transition disabled:opacity-50"
                 >
-                  {isSubmitting ? (language === 'zh' ? '正在保存至 .dat...' : 'Saving to .dat...') : t.save}
+                  {isSubmitting ? (language === 'zh' ? '正在保存...' : 'Saving...') : t.save}
                 </button>
               </div>
             </form>
@@ -687,8 +685,8 @@ export function CoursesTab({
 
             <p className="text-sm text-slate-600">
               {language === 'zh'
-                ? `确定要删除课程 ${courseToDelete.name}（课程号: ${courseToDelete.id}）吗？删除后，所有与该课程关联的学生选课与成绩记录将从 score.dat 中同步清除。`
-                : `Are you sure you want to permanently delete course ${courseToDelete.name} (${courseToDelete.id})? All enrolled students and scores for this course will be removed from score.dat.`}
+                ? `确定要删除课程 ${courseToDelete.name}（课程号: ${courseToDelete.id}）吗？删除后，所有与该课程关联的学生选课与成绩记录将同步清除。`
+                : `Are you sure you want to permanently delete course ${courseToDelete.name} (${courseToDelete.id})? All enrolled students and scores for this course will be removed.`}
             </p>
 
             <div className="flex justify-end space-x-2 pt-3">

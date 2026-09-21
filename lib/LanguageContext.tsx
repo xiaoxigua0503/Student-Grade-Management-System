@@ -13,30 +13,41 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // Default to Chinese ('zh') as requested by the user
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('app_language') as Language | null;
-      if (saved === 'zh' || saved === 'en') {
-        return saved;
-      }
-    }
-    return 'zh';
-  });
+  // Initial state matches SSR render perfectly
+  const [language, setLanguageState] = useState<Language>('zh');
 
   useEffect(() => {
-    // Keep localStorage in sync whenever language changes
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('app_language', language);
+    try {
+      const saved = localStorage.getItem('app_language') as Language | null;
+      if (saved === 'en') {
+        queueMicrotask(() => {
+          setLanguageState('en');
+        });
+      }
+    } catch {
+      // Ignore localStorage access restrictions in sandboxed iframes
     }
-  }, [language]);
+  }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
+    try {
+      localStorage.setItem('app_language', lang);
+    } catch {
+      // Ignore
+    }
   };
 
   const toggleLanguage = () => {
-    setLanguageState((prev) => (prev === 'zh' ? 'en' : 'zh'));
+    setLanguageState((prev) => {
+      const nextLang = prev === 'zh' ? 'en' : 'zh';
+      try {
+        localStorage.setItem('app_language', nextLang);
+      } catch {
+        // Ignore
+      }
+      return nextLang;
+    });
   };
 
   const t = translations[language];

@@ -6,8 +6,10 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const studentId = searchParams.get('studentId') || undefined;
     const courseId = searchParams.get('courseId') || undefined;
+    const q = searchParams.get('q') || undefined;
+    const status = searchParams.get('status') || undefined;
 
-    const scores = getEnrichedScores({ studentId, courseId });
+    const scores = getEnrichedScores({ studentId, courseId, q, status });
     return NextResponse.json({ success: true, scores });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Unknown error';

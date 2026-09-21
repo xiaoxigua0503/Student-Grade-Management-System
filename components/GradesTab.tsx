@@ -64,8 +64,11 @@ export function GradesTab({
   // --- GRADE SEARCH & MANAGE STATE ---
   const [searchStudentId, setSearchStudentId] = useState('');
   const [searchCourseId, setSearchCourseId] = useState('');
+  const [searchStatus, setSearchStatus] = useState<string>('all');
   const [searchResults, setSearchResults] = useState<EnrichedScoreRecord[]>([]);
   const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 20;
 
   // Modals for Edit & Delete
   const [editingRecord, setEditingRecord] = useState<EnrichedScoreRecord | null>(null);
@@ -139,24 +142,30 @@ export function GradesTab({
   }, [batchCourseId, language]);
 
   // Load Search Records
-  const fetchSearchResults = useCallback(async (sId = searchStudentId, cId = searchCourseId) => {
+  const fetchSearchResults = useCallback(async (sId?: string, cId?: string, st?: string) => {
     setIsLoadingSearch(true);
     try {
+      const studentVal = sId !== undefined ? sId : searchStudentId;
+      const courseVal = cId !== undefined ? cId : searchCourseId;
+      const statusVal = st !== undefined ? st : searchStatus;
+
       const params = new URLSearchParams();
-      if (sId.trim()) params.append('studentId', sId.trim());
-      if (cId.trim()) params.append('courseId', cId.trim());
+      if (studentVal.trim()) params.append('studentId', studentVal.trim());
+      if (courseVal.trim()) params.append('courseId', courseVal.trim());
+      if (statusVal && statusVal !== 'all') params.append('status', statusVal);
 
       const res = await fetch(`/api/scores?${params.toString()}`);
       const data = await res.json();
       if (data.success) {
         setSearchResults(data.scores);
+        setCurrentPage(1);
       }
     } catch {
       showToast(language === 'zh' ? '网络错误，查询成绩失败' : 'Network error while fetching grades.', 'error');
     } finally {
       setIsLoadingSearch(false);
     }
-  }, [searchStudentId, searchCourseId, language]);
+  }, [searchStudentId, searchCourseId, searchStatus, language]);
 
   useEffect(() => {
     if (subView === 'search') {
@@ -186,7 +195,7 @@ export function GradesTab({
     });
     setBatchDraftScores(initialScores);
     setIsDraftSaved(false);
-    showToast(language === 'zh' ? '已放弃草稿，恢复至数据库持久化成绩' : 'Draft discarded. Reset to persistent data.');
+    showToast(language === 'zh' ? '已放弃草稿，恢复至已保存成绩' : 'Draft discarded. Reset to saved grades.');
   };
 
   // Final batch submission
@@ -230,8 +239,8 @@ export function GradesTab({
         localStorage.removeItem(`grade_draft_${batchCourseId}`);
         setIsDraftSaved(false);
         showToast(language === 'zh' 
-          ? `成功将 ${data.updatedCount} 名学生的成绩持久化保存至 score.dat！` 
-          : `Successfully saved grades for ${data.updatedCount} student(s) to score.dat!`);
+          ? `成功保存 ${data.updatedCount} 名学生的成绩！` 
+          : `Successfully saved grades for ${data.updatedCount} student(s)!`);
         onRefresh();
 
         const refreshRes = await fetch(`/api/grades/batch?courseId=${batchCourseId}`);
@@ -500,7 +509,7 @@ export function GradesTab({
                     </span>
                   ) : (
                     <span>
-                      {t.tempSaveNotice} <code className="font-mono text-slate-700">score.dat</code>。
+                      {t.tempSaveNotice}
                     </span>
                   )}
                 </span>
@@ -750,14 +759,22 @@ export function GradesTab({
         <div className="space-y-4">
           {/* Search Controls Bar */}
           <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm space-y-4">
-            <div className="border-b border-slate-100 pb-3">
-              <h3 className="text-base font-bold text-slate-900">{t.searchGradeHeader}</h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                {t.searchGradeDesc}
-              </p>
+            <div className="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h3 className="text-base font-bold text-slate-900">{t.searchGradeHeader}</h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  {t.searchGradeDesc}
+                </p>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                fetchSearchResults();
+              }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"
+            >
               {/* Search by Student ID / Name */}
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">{t.filterByStudentId}:</label>
@@ -766,50 +783,97 @@ export function GradesTab({
                   type="text"
                   value={searchStudentId}
                   onChange={(e) => setSearchStudentId(e.target.value)}
-                  placeholder="20210001"
-                  className="w-full px-3 py-2 text-sm font-mono border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"
+                  placeholder={language === 'zh' ? '输入学号或姓名 (如 20210001)' : 'Student ID or Name...'}
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"
                 />
               </div>
 
-              {/* Search by Course ID */}
+              {/* Search by Course ID / Name / Select */}
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">{t.filterByCourseId}:</label>
                 <input
                   id="search-grade-course-id"
                   type="text"
+                  list="course-search-datalist"
                   value={searchCourseId}
-                  onChange={(e) => setSearchCourseId(e.target.value.toUpperCase())}
-                  placeholder="JCKC0001"
-                  className="w-full px-3 py-2 text-sm font-mono border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"
+                  onChange={(e) => setSearchCourseId(e.target.value)}
+                  placeholder={language === 'zh' ? '输入课程号或名称 (如 JCKC0001)' : 'Course ID or Name...'}
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"
                 />
+                <datalist id="course-search-datalist">
+                  {courses.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name} ({c.category})
+                    </option>
+                  ))}
+                </datalist>
               </div>
 
+              {/* Filter by Status */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">{t.filterByStatus}:</label>
+                <select
+                  id="search-grade-status-select"
+                  value={searchStatus}
+                  onChange={(e) => {
+                    setSearchStatus(e.target.value);
+                    fetchSearchResults(undefined, undefined, e.target.value);
+                  }}
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"
+                >
+                  <option value="all">{t.allStatuses}</option>
+                  <option value="passed">{t.statusPassed}</option>
+                  <option value="failed">{t.statusFailed}</option>
+                  <option value="pending">{t.statusPending}</option>
+                </select>
+              </div>
+
+              {/* Action Buttons */}
               <div className="flex items-end space-x-2">
                 <button
                   id="btn-execute-grade-search"
-                  onClick={() => fetchSearchResults()}
+                  type="submit"
                   className="flex-1 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition shadow-xs flex items-center justify-center space-x-1.5"
                 >
                   <Search className="w-4 h-4" />
                   <span>{t.search}</span>
                 </button>
                 <button
+                  type="button"
                   onClick={() => {
                     setSearchStudentId('');
                     setSearchCourseId('');
-                    fetchSearchResults('', '');
+                    setSearchStatus('all');
+                    fetchSearchResults('', '', 'all');
                   }}
                   className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-medium transition"
                 >
-                  {t.clearSelection}
+                  {t.reset}
                 </button>
               </div>
-            </div>
+            </form>
 
-            <div className="text-xs text-slate-500">
-              {language === 'zh' ? '在 score.dat 中共检索到 ' : 'Found '}
-              <strong className="text-slate-800">{searchResults.length}</strong>
-              {language === 'zh' ? ' 条匹配的成绩记录' : ' matching record(s) in score.dat'}
+            {/* Results Summary Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 text-xs text-slate-500">
+              <div>
+                {language === 'zh' ? '共检索到 ' : 'Found '}
+                <strong className="text-slate-900 font-bold text-sm">{searchResults.length}</strong>
+                {language === 'zh' ? ' 条成绩记录' : ' grade record(s)'}
+              </div>
+
+              {searchResults.length > 0 && (
+                <div className="flex items-center space-x-3">
+                  <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-medium">
+                    {t.passed}: {searchResults.filter(s => s.score !== '' && parseFloat(s.score) >= 60).length}
+                  </span>
+                  <span className="text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200 font-medium">
+                    {t.failed}: {searchResults.filter(s => s.score !== '' && parseFloat(s.score) < 60).length}
+                  </span>
+                  <span className="text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-medium">
+                    {t.pendingStatus}: {searchResults.filter(s => s.score === '').length}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -837,7 +901,7 @@ export function GradesTab({
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
-                    {searchResults.slice(0, 50).map((sc) => {
+                    {searchResults.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((sc) => {
                       const num = sc.score !== '' ? parseFloat(sc.score) : null;
                       return (
                         <tr key={`${sc.studentId}_${sc.courseId}`} className="hover:bg-slate-50/70 transition">
@@ -898,11 +962,34 @@ export function GradesTab({
                 </table>
               </div>
             )}
-            {searchResults.length > 50 && (
-              <div className="p-3 bg-slate-50 text-center text-xs text-slate-500 border-t border-slate-200">
-                {language === 'zh' 
-                  ? `当前显示前 50 条查询结果（共 ${searchResults.length} 条）。可使用上方搜索栏精确筛选。` 
-                  : `Displaying first 50 results of ${searchResults.length}. Refine search above for specific records.`}
+
+            {/* Pagination Controls */}
+            {searchResults.length > pageSize && (
+              <div className="p-3 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+                <div>
+                  {language === 'zh'
+                    ? `显示第 ${(currentPage - 1) * pageSize + 1} - ${Math.min(currentPage * pageSize, searchResults.length)} 条，共 ${searchResults.length} 条记录`
+                    : `Showing ${(currentPage - 1) * pageSize + 1} - ${Math.min(currentPage * pageSize, searchResults.length)} of ${searchResults.length} records`}
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-40 transition font-medium"
+                  >
+                    {t.prevPage}
+                  </button>
+                  <span className="font-semibold text-slate-800">
+                    {t.page} {currentPage} / {Math.max(1, Math.ceil(searchResults.length / pageSize))} {t.of}
+                  </span>
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.min(Math.ceil(searchResults.length / pageSize), p + 1))}
+                    disabled={currentPage >= Math.ceil(searchResults.length / pageSize)}
+                    className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-40 transition font-medium"
+                  >
+                    {t.nextPage}
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -995,8 +1082,8 @@ export function GradesTab({
             </div>
             <p className="text-sm text-slate-600 leading-relaxed">
               {language === 'zh'
-                ? '确定要从 score.dat 中永久删除这条单科成绩记录吗？'
-                : 'Are you sure you want to permanently delete this grade record from score.dat?'}
+                ? '确定要永久删除这条成绩记录吗？删除后将不可恢复。'
+                : 'Are you sure you want to permanently delete this grade record? This action cannot be undone.'}
             </p>
             <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs space-y-1">
               <div>{t.student}: <strong>{recordToDelete.studentName}</strong> ({recordToDelete.studentId})</div>

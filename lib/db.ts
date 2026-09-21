@@ -405,7 +405,7 @@ export function deleteCourse(id: string): { success: boolean; error?: string } {
 }
 
 // --- SCORE & ENROLLMENT OPERATIONS ---
-export function getEnrichedScores(filters?: { studentId?: string; courseId?: string }): EnrichedScoreRecord[] {
+export function getEnrichedScores(filters?: { studentId?: string; courseId?: string; q?: string; status?: string }): EnrichedScoreRecord[] {
   const scores = readScoresRaw();
   const students = readStudentsRaw();
   const courses = readCoursesRaw();
@@ -413,17 +413,54 @@ export function getEnrichedScores(filters?: { studentId?: string; courseId?: str
   const studentMap = new Map<string, Student>(students.map(s => [s.id, s]));
   const courseMap = new Map<string, Course>(courses.map(c => [c.id, c]));
 
+  const qStudent = filters?.studentId ? filters.studentId.trim().toLowerCase() : '';
+  const qCourse = filters?.courseId ? filters.courseId.trim().toLowerCase() : '';
+  const qGeneral = filters?.q ? filters.q.trim().toLowerCase() : '';
+  const statusFilter = filters?.status ? filters.status.trim().toLowerCase() : '';
+
   let results: EnrichedScoreRecord[] = [];
 
   for (const sc of scores) {
-    if (filters?.studentId && sc.studentId !== filters.studentId.trim()) continue;
-    if (filters?.courseId && sc.courseId !== filters.courseId.trim().toUpperCase()) continue;
-
     const student = studentMap.get(sc.studentId);
     const course = courseMap.get(sc.courseId);
 
     // Filter out orphaned records if any
     if (!student || !course) continue;
+
+    // Filter by student (matches student ID or student name)
+    if (qStudent) {
+      const matchId = sc.studentId.toLowerCase().includes(qStudent);
+      const matchName = student.name.toLowerCase().includes(qStudent);
+      if (!matchId && !matchName) continue;
+    }
+
+    // Filter by course (matches course ID, course name, or category)
+    if (qCourse) {
+      const matchCourseId = sc.courseId.toLowerCase().includes(qCourse);
+      const matchCourseName = course.name.toLowerCase().includes(qCourse);
+      const matchCategory = course.category.toLowerCase().includes(qCourse);
+      if (!matchCourseId && !matchCourseName && !matchCategory) continue;
+    }
+
+    // Filter by general search keyword across student & course fields
+    if (qGeneral) {
+      const matchAny = 
+        sc.studentId.toLowerCase().includes(qGeneral) ||
+        student.name.toLowerCase().includes(qGeneral) ||
+        student.major.toLowerCase().includes(qGeneral) ||
+        student.college.toLowerCase().includes(qGeneral) ||
+        sc.courseId.toLowerCase().includes(qGeneral) ||
+        course.name.toLowerCase().includes(qGeneral);
+      if (!matchAny) continue;
+    }
+
+    // Filter by score status
+    if (statusFilter && statusFilter !== 'all') {
+      const num = sc.score !== '' ? parseFloat(sc.score) : null;
+      if (statusFilter === 'passed' && (num === null || num < 60)) continue;
+      if (statusFilter === 'failed' && (num === null || num >= 60)) continue;
+      if (statusFilter === 'pending' && num !== null) continue;
+    }
 
     results.push({
       studentId: sc.studentId,
